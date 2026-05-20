@@ -461,4 +461,25 @@ footer hr{
     min-width:220px;
     box-shadow:0 5px 15px rgba(0,0,0,0.1);
 }
+/* SETTINGS PAGE */
+
+.settings-page{
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    background:#f4f4f4;
+    text-align:center;
+}
+
+.settings-page button{
+    margin-top:20px;
+    padding:15px 30px;
+    border:none;
+    background:#111;
+    color:white;
+    border-radius:10px;
+    cursor:pointer;
+}
 }
