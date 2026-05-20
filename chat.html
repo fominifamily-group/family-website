@@ -112,24 +112,58 @@ db.collection("messages")
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-// Import the functions you need from the SDKs you need
 
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+<script>
 const firebaseConfig = {
   apiKey: "AIzaSyDDqCkLKD_zwYD4ffhgTxk9qQtXTyUTSXE",
   authDomain: "family-chat-4ae3c.firebaseapp.com",
   projectId: "family-chat-4ae3c",
-  storageBucket: "family-chat-4ae3c.firebasestorage.app",
+  storageBucket: "family-chat-4ae3c.appspot.com",
   messagingSenderId: "757400177632",
-  appId: "1:757400177632:web:a3b1743038b3c4a53c3985",
-  measurementId: "G-3B8070XCWQ"
+  appId: "1:757400177632:web:a3b1743038b3c4a53c3985"
 };
 
-// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+const db = firebase.firestore();
+
+async function sendMessage() {
+
+  const input = document.getElementById("messageInput");
+
+  const message = input.value;
+
+  if(message.trim() === "") return;
+
+  await db.collection("messages").add({
+    text: message,
+    time: Date.now()
+  });
+
+  input.value = "";
+}
+
+db.collection("messages")
+.orderBy("time")
+.onSnapshot((snapshot) => {
+
+  const chatBox = document.getElementById("chatBox");
+
+  chatBox.innerHTML = "";
+
+  snapshot.forEach((doc) => {
+
+    const data = doc.data();
+
+    chatBox.innerHTML += `
+      <div class="message">
+        ${data.text}
+      </div>
+    `;
+  });
+
+});
+</script>
 
 </body>
 
