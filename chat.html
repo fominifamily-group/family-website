@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Family Chat</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<div class="chat-container">
+
+    <h1>Family Chat Room</h1>
+
+    <div class="chat-box" id="chat-box">
+
+        <div class="message">
+            Welcome to the family chat 👋
+        </div>
+
+    </div>
+
+    <div class="chat-input">
+
+        <input type="text"
+        id="message-input"
+        placeholder="Type your message">
+
+        <button onclick="sendMessage()">
+            Send
+        </button>
+
+    </div>
+
+</div>
+
+<script>
+
+function sendMessage(){
+
+    const input =
+    document.getElementById("message-input");
+
+    const chatBox =
+    document.getElementById("chat-box");
+
+    if(input.value.trim() !== ""){
+
+        const newMessage =
+        document.createElement("div");
+
+        newMessage.classList.add("message");
+
+        newMessage.innerText = input.value;
+
+        chatBox.appendChild(newMessage);
+
+        input.value = "";
+
+        chatBox.scrollTop =
+        chatBox.scrollHeight;
+    }
+
+}
+
+</script>
+
+</body>
+
+</html>

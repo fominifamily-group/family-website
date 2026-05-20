@@ -482,4 +482,58 @@ footer hr{
     border-radius:10px;
     cursor:pointer;
 }
+/* FAMILY CHAT */
+
+.chat-container{
+    max-width:700px;
+    margin:50px auto;
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+.chat-container h1{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.chat-box{
+    height:400px;
+    overflow-y:auto;
+    border:1px solid #ccc;
+    padding:15px;
+    border-radius:10px;
+    background:#f4f4f4;
+}
+
+.message{
+    background:#00bfff;
+    color:white;
+    padding:12px;
+    border-radius:10px;
+    margin-bottom:10px;
+    width:fit-content;
+    max-width:80%;
+}
+
+.chat-input{
+    display:flex;
+    margin-top:20px;
+    gap:10px;
+}
+
+.chat-input input{
+    flex:1;
+    padding:12px;
+}
+
+.chat-input button{
+    padding:12px 25px;
+    border:none;
+    background:#111;
+    color:white;
+    cursor:pointer;
+    border-radius:10px;
+}
 }
