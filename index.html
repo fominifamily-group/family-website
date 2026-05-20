@@ -42,10 +42,13 @@
             e.preventDefault();
 
             const username =
-            document.getElementById("username").value;
+document.getElementById("username")
+.value.toLowerCase().trim();
 
             const password =
-            document.getElementById("password").value;
+document.getElementById("password")
+.value.trim();
+            
 
             if(username === "family" &&
                password === "312311"){
