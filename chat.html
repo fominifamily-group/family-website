@@ -71,6 +71,30 @@ h1{
 text-align:center;
 
 }
+#message{
+
+width:75%;
+
+padding:15px;
+
+font-size:18px;
+
+border-radius:10px;
+
+border:1px solid gray;
+
+}
+#send-btn{
+
+padding:15px 20px;
+
+font-size:18px;
+
+border-radius:10px;
+
+margin-left:5px;
+
+}
 
 </style>
 <head>
@@ -100,6 +124,11 @@ margin-top:10px;
 content="width=device-width, initial-scale=1.0">
 
 <title>Family Chat</title>
+<button id="delete-selected">
+
+Delete Selected
+
+</button>
 <button id="logout-btn">
 Logout
 </button>
@@ -116,7 +145,9 @@ Logout
 
     <div class="chat-box" id="chat-box">
 
-        <div class="message">
+        <div class="message"
+
+onclick="selectMessage('${doc.id}')">
             Welcome to the family chat 👋
         </div>
 
@@ -127,7 +158,7 @@ Logout
 
 <input type="text"
 id="message"
-placeholder="Type your message">
+placeholder="Type your message here...">
 
 <button id="send-btn">
 Send
@@ -182,6 +213,7 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 
 let currentUser = "";
+let selectedMessage = "";
 onAuthStateChanged(auth, (user) => {
 
 if(user){
@@ -241,9 +273,6 @@ chatBox.innerHTML += `
 
 <p>${data.text}</p>
 
-<button onclick="deleteMessage('${doc.id}')">
-Delete
-</button>
 
 </div>
 `;
@@ -264,6 +293,22 @@ logoutBtn.addEventListener("click", async () => {
 await signOut(auth);
 
 window.location.href = "login.html";
+
+});
+function selectMessage(id){
+
+selectedMessage = id;
+
+}
+const deleteBtn = document.getElementById("delete-selected");
+
+deleteBtn.addEventListener("click", async () => {
+
+if(selectedMessage !== ""){
+
+await deleteDoc(doc(db, "messages", selectedMessage));
+
+}
 
 });
 </script>
