@@ -124,13 +124,7 @@ margin-top:10px;
 content="width=device-width, initial-scale=1.0">
 
 <title>Family Chat</title>
-<button id="delete-selected">
 
-Delete Selected
-</button>
-<button id="logout-btn">
-Logout
-</button>
 
 <link rel="stylesheet" href="style.css">
 
@@ -144,9 +138,25 @@ Logout
 
     <div class="chat-box" id="chat-box">
 
-        <div class="message"
+        messagesDiv.innerHTML += `
 
-onclick="selectMessage('${doc.id}')">
+<div class="message">
+
+<b>${data.name}</b>: ${data.text}
+
+<br><br>
+
+<button onclick="deleteMessage('${doc.id}')">
+
+Delete
+
+</button>
+
+<hr>
+
+</div>
+
+`;
             Welcome to the family chat 👋
         </div>
 
@@ -212,7 +222,6 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 
 let currentUser = "";
-let selectedMessage = "";
 onAuthStateChanged(auth, (user) => {
 
 if(user){
@@ -302,43 +311,13 @@ await signOut(auth);
 window.location.href = "login.html";
 
 });
-window.selectMessage = function(id){
-
-selectedMessage = id;
-
-console.log(selectedMessage);
-
-}
 
 
-document.getElementById("delete-selected")
+window.deleteMessage = async function(id){
 
-.addEventListener("click", async () => {
-
-if(selectedMessage){
-
-try{
-
-await deleteDoc(doc(db, "messages", selectedMessage));
-
-selectedMessage = "";
-
-console.log("Deleted");
-
-alert("Message deleted");
+await deleteDoc(doc(db, "messages", id));
 
 }
-
-catch(error){
-
-console.log(error);
-
-}
-
-}
-
-});
-
 </script>
 </body>
 
