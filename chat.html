@@ -109,59 +109,50 @@ db.collection("messages")
 
 });
 </script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, addDoc, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-
-<script>
 const firebaseConfig = {
   apiKey: "AIzaSyDDqCkLKD_zwYD4ffhgTxk9qQtXTyUTSXE",
+
   authDomain: "family-chat-4ae3c.firebaseapp.com",
   projectId: "family-chat-4ae3c",
-  storageBucket: "family-chat-4ae3c.appspot.com",
+  storageBucket: "family-chat-4ae3c.firebasestorage.app",
   messagingSenderId: "757400177632",
-  appId: "1:757400177632:web:a3b1743038b3c4a53c3985"
+  appId: "1:757400177632:web:3b1743038b3c4a53c3985"
 };
 
-firebase.initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-const db = firebase.firestore();
+const chatBox = document.getElementById("chat-box");
+const sendBtn = document.getElementById("send-btn");
+const messageInput = document.getElementById("message");
 
-async function sendMessage() {
+sendBtn.addEventListener("click", async () => {
+  const text = messageInput.value;
 
-  const input = document.getElementById("messageInput");
+  if(text.trim() === "") return;
 
-  const message = input.value;
-
-  if(message.trim() === "") return;
-
-  await db.collection("messages").add({
-    text: message,
+  await addDoc(collection(db, "messages"), {
+    text: text,
     time: Date.now()
   });
 
-  input.value = "";
-}
+  messageInput.value = "";
+});
 
-db.collection("messages")
-.orderBy("time")
-.onSnapshot((snapshot) => {
+const q = query(collection(db, "messages"), orderBy("time"));
 
-  const chatBox = document.getElementById("chatBox");
-
+onSnapshot(q, (snapshot) => {
   chatBox.innerHTML = "";
 
   snapshot.forEach((doc) => {
-
-    const data = doc.data();
-
-    chatBox.innerHTML += `
-      <div class="message">
-        ${data.text}
-      </div>
-    `;
+    const p = document.createElement("p");
+    p.textContent = doc.data().text;
+    chatBox.appendChild(p);
   });
-
 });
 </script>
 
