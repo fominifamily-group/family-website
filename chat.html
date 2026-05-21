@@ -9,6 +9,9 @@
 content="width=device-width, initial-scale=1.0">
 
 <title>Family Chat</title>
+<button id="logout-btn">
+Logout
+</button>
 
 <link rel="stylesheet" href="style.css">
 
@@ -59,7 +62,8 @@ doc
 import {
 
 getAuth,
-onAuthStateChanged
+onAuthStateChanged,
+signOut
 
 }
 
@@ -162,7 +166,15 @@ await deleteDoc(doc(db, "messages", id));
 
 }
 window.deleteMessage = deleteMessage;
+const logoutBtn = document.getElementById("logout-btn");
 
+logoutBtn.addEventListener("click", async () => {
+
+await signOut(auth);
+
+window.location.href = "login.html";
+
+});
 </script>
 </body>
 
