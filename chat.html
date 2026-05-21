@@ -134,6 +134,7 @@ async function deleteMessage(id) {
 await deleteDoc(doc(db, "messages", id));
 
 }
+window.deleteMessage = deleteMessage;
 
 </script>
 </body>
