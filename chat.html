@@ -141,9 +141,7 @@ Logout
 <div class="chat-container">
 
     <h1>Family Chat Room</h1>
-<button id="logout-btn">
-  Logout
-</button>
+
     <div class="chat-box" id="chat-box">
 
         <div class="message"
@@ -230,6 +228,14 @@ window.location.href = "login.html";
 }
 
 });
+
+window.addEventListener("beforeunload", async () => {
+
+await signOut(auth);
+
+});
+
+
 
 const sendBtn = document.getElementById("send-btn");
 
