@@ -2,23 +2,27 @@
 <html lang="en">
 
 <head>
-  <title>Login</title>
+  <title>Sign Up</title>
 </head>
 
 <body>
 
-<h1>Family Login</h1>
+<h1>Create Family Account</h1>
 
-<input type="email" id="email" placeholder="Enter Email">
-
-<br><br>
-
-<input type="password" id="password" placeholder="Enter Password">
+<input type="text" id="name" placeholder="Your Name">
 
 <br><br>
 
-<button id="login-btn">
-Login
+<input type="email" id="email" placeholder="Your Email">
+
+<br><br>
+
+<input type="password" id="password" placeholder="Your Password">
+
+<br><br>
+
+<button id="signup-btn">
+Create Account
 </button>
 
 <script type="module">
@@ -30,7 +34,8 @@ from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
 
 getAuth,
-signInWithEmailAndPassword
+createUserWithEmailAndPassword,
+updateProfile
 
 }
 
@@ -56,9 +61,11 @@ const app = initializeApp(firebaseConfig);
 
 const auth = getAuth(app);
 
-const loginBtn = document.getElementById("login-btn");
+const signupBtn = document.getElementById("signup-btn");
 
-loginBtn.addEventListener("click", async () => {
+signupBtn.addEventListener("click", async () => {
+
+const name = document.getElementById("name").value;
 
 const email = document.getElementById("email").value;
 
@@ -66,15 +73,21 @@ const password = document.getElementById("password").value;
 
 try {
 
-await signInWithEmailAndPassword(
+const userCredential = await createUserWithEmailAndPassword(
 auth,
 email,
 password
 );
 
-alert("Login successful!");
+await updateProfile(userCredential.user, {
 
-window.location.href = "chat.html";
+displayName: name
+
+});
+
+alert("Account created successfully!");
+
+window.location.href = "login.html";
 
 }
 

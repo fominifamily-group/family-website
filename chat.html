@@ -54,7 +54,16 @@ onSnapshot,
 deleteDoc,
 doc
 
+
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {
+
+getAuth,
+onAuthStateChanged
+
+}
+
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 const firebaseConfig = {
 
@@ -75,6 +84,24 @@ appId: "1:757400177632:web:3b1743038b3c4a53c3985"
 const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
+const auth = getAuth(app);
+
+let currentUser = "";
+onAuthStateChanged(auth, (user) => {
+
+if(user){
+
+currentUser = user.displayName;
+
+}
+
+else{
+
+window.location.href = "login.html";
+
+}
+
+});
 
 const sendBtn = document.getElementById("send-btn");
 
@@ -90,7 +117,7 @@ if(text.trim() === "") return;
 
 await addDoc(collection(db, "messages"), {
 
-  name: "Gregory",
+  name: currentUser,
 
 text: text,
 
