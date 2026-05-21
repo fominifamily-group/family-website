@@ -75,7 +75,7 @@ const db = getFirestore(app);
 
 const sendBtn = document.getElementById("send-btn");
 
-const messageInput = document.getElementById("message");
+const messageInput = document.getElementById("message-input");
 
 const chatBox = document.getElementById("chat-box");
 
@@ -105,11 +105,21 @@ chatBox.innerHTML = "";
 
 snapshot.forEach((doc) => {
 
-const p = document.createElement("p");
+const data = doc.data();
 
-p.textContent = doc.data().text;
+chatBox.innerHTML += `
+<div class="message">
 
-chatBox.appendChild(p);
+<p><strong>${data.name}</strong></p>
+
+<p>${data.text}</p>
+
+<button onclick="deleteMessage('${doc.id}')">
+Delete
+</button>
+
+</div>
+`;
 
 });
 
