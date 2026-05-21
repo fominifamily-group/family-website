@@ -50,7 +50,10 @@ collection,
 addDoc,
 query,
 orderBy,
-onSnapshot
+onSnapshot,
+deleteDoc,
+doc
+
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -87,6 +90,8 @@ if(text.trim() === "") return;
 
 await addDoc(collection(db, "messages"), {
 
+  name: "Gregory",
+
 text: text,
 
 time: Date.now()
@@ -110,7 +115,7 @@ const data = doc.data();
 chatBox.innerHTML += `
 <div class="message">
 
-<p><strong>${data.name}</strong></p>
+<p><strong>${data.name || "Gregory"}</strong></p>
 
 <p>${data.text}</p>
 
@@ -124,6 +129,11 @@ Delete
 });
 
 });
+async function deleteMessage(id) {
+
+await deleteDoc(doc(db, "messages", id));
+
+}
 
 </script>
 </body>
