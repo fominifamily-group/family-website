@@ -295,11 +295,15 @@ await signOut(auth);
 window.location.href = "login.html";
 
 });
-function selectMessage(id){
+window.selectMessage = function(id){
 
 selectedMessage = id;
 
+console.log(selectedMessage);
+
 }
+
+
 document.getElementById("delete-selected")
 
 .addEventListener("click", async () => {
@@ -311,6 +315,8 @@ try{
 await deleteDoc(doc(db, "messages", selectedMessage));
 
 selectedMessage = "";
+
+console.log("Deleted");
 
 alert("Message deleted");
 
