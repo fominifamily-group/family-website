@@ -300,17 +300,32 @@ function selectMessage(id){
 selectedMessage = id;
 
 }
-const deleteBtn = document.getElementById("delete-selected");
+document.getElementById("delete-selected")
 
-deleteBtn.addEventListener("click", async () => {
+.addEventListener("click", async () => {
 
-if(selectedMessage !== ""){
+if(selectedMessage){
+
+try{
 
 await deleteDoc(doc(db, "messages", selectedMessage));
+
+selectedMessage = "";
+
+alert("Message deleted");
+
+}
+
+catch(error){
+
+console.log(error);
+
+}
 
 }
 
 });
+
 </script>
 </body>
 
