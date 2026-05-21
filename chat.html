@@ -42,120 +42,93 @@ content="width=device-width, initial-scale=1.0">
 
 </div>
 
-<script>
+<div class="chat-input">
 
-function sendMessage(){
+<input type="text"
+id="message"
+placeholder="Type your message">
 
-    const input =
-    document.getElementById("message-input");
+<button id="send-btn">
+Send
+</button>
 
-    const chatBox =
-    document.getElementById("chat-box");
-
-    if(input.value.trim() !== ""){
-
-        const newMessage =
-        document.createElement("div");
-
-        newMessage.classList.add("message");
-
-        newMessage.innerText = input.value;
-
-        chatBox.appendChild(newMessage);
-
-        input.value = "";
-
-        chatBox.scrollTop =
-        chatBox.scrollHeight;
-    }
-
-}
-
-</script>
-<script>
-async function sendMessage() {
-
-  const input = document.getElementById("messageInput");
-  const message = input.value;
-
-  if(message.trim() === "") return;
-
-  await db.collection("messages").add({
-    text: message,
-    time: Date.now()
-  });
-
-  input.value = "";
-}
-
-db.collection("messages")
-.orderBy("time")
-.onSnapshot((snapshot) => {
-
-  const chatBox = document.getElementById("chatBox");
-
-  chatBox.innerHTML = "";
-
-  snapshot.forEach((doc) => {
-
-    const data = doc.data();
-
-    chatBox.innerHTML += `
-      <div class="message">
-        ${data.text}
-      </div>
-    `;
-  });
-
-});
-</script>
+</div>
 <script type="module">
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, collection, addDoc, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+import {
+getFirestore,
+collection,
+addDoc,
+query,
+orderBy,
+onSnapshot
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDDqCkLKD_zwYD4ffhgTxk9qQtXTyUTSXE",
 
-  authDomain: "family-chat-4ae3c.firebaseapp.com",
-  projectId: "family-chat-4ae3c",
-  storageBucket: "family-chat-4ae3c.firebasestorage.app",
-  messagingSenderId: "757400177632",
-  appId: "1:757400177632:web:3b1743038b3c4a53c3985"
+apiKey: "AIzaSyDDqCkLKD_zwYD4ffhgTxk9qQtXTyUTSXE",
+
+authDomain: "family-chat-4ae3c.firebaseapp.com",
+
+projectId: "family-chat-4ae3c",
+
+storageBucket: "family-chat-4ae3c.firebasestorage.app",
+
+messagingSenderId: "757400177632",
+
+appId: "1:757400177632:web:3b1743038b3c4a53c3985"
+
 };
 
 const app = initializeApp(firebaseConfig);
+
 const db = getFirestore(app);
 
-const chatBox = document.getElementById("chat-box");
 const sendBtn = document.getElementById("send-btn");
+
 const messageInput = document.getElementById("message");
 
+const chatBox = document.getElementById("chat-box");
+
 sendBtn.addEventListener("click", async () => {
-  const text = messageInput.value;
 
-  if(text.trim() === "") return;
+const text = messageInput.value;
 
-  await addDoc(collection(db, "messages"), {
-    text: text,
-    time: Date.now()
-  });
+if(text.trim() === "") return;
 
-  messageInput.value = "";
+await addDoc(collection(db, "messages"), {
+
+text: text,
+
+time: Date.now()
+
+});
+
+messageInput.value = "";
+
 });
 
 const q = query(collection(db, "messages"), orderBy("time"));
 
 onSnapshot(q, (snapshot) => {
-  chatBox.innerHTML = "";
 
-  snapshot.forEach((doc) => {
-    const p = document.createElement("p");
-    p.textContent = doc.data().text;
-    chatBox.appendChild(p);
-  });
+chatBox.innerHTML = "";
+
+snapshot.forEach((doc) => {
+
+const p = document.createElement("p");
+
+p.textContent = doc.data().text;
+
+chatBox.appendChild(p);
+
 });
-</script>
 
+});
+
+</script>
 </body>
 
 </html>
