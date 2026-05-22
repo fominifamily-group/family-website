@@ -360,6 +360,8 @@ await addDoc(collection(db, "messages"), {
 
 text: text,
 
+photo: "https://i.pravatar.cc/150?img",
+
 time: Date.now()
 
 });
@@ -381,17 +383,35 @@ const data = doc.data();
 chatBox.innerHTML += `
 <div class="message">
 
-<p><strong>${data.name || "Gregory"}</strong></p>
+<div style="display:flex;
+align-items:flex-start;
+gap:10px;">
 
-<p>${data.text}</p>
+<img src="${data.photo}"
 
-<button onclick="deleteMessage('${doc.id}')">
+width="50"
 
-Delete
+height="50"
 
-</button>
+style="border-radius:50%;">
 
-<hr>
+<div>
+
+<p>
+
+<strong>${data.name}</strong>
+
+</p>
+
+<p>
+
+${data.text}
+
+</p>
+
+</div>
+
+</div>
 
 </div>
 `;
