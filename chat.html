@@ -265,35 +265,23 @@ onSnapshot(q, (snapshot) => {
 chatBox.innerHTML = "";
 
 snapshot.forEach((doc) => {
-const data = docItem.data();
 
-messagesDiv.innerHTML += `
+const data = doc.data();
 
-<div style="margin:20px;
-padding:15px;
-background:#f2f2f2;
-border-radius:10px;">
+chatBox.innerHTML += `
+<div class="message">
 
-<p>
+<p><strong>${data.name || "Gregory"}</strong></p>
 
-<b>${data.name}</b>: ${data.text}
+<p>${data.text}</p>
 
-</p>
-
-<button onclick="deleteMessage('${docItem.id}')">
-
-Delete
-
-</button>
 
 </div>
-
 `;
 
 });
 
 });
-
 async function deleteMessage(id) {
 
 await deleteDoc(doc(db, "messages", id));
