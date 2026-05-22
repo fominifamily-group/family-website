@@ -208,6 +208,7 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 
 let currentUser = "";
+
 onAuthStateChanged(auth, (user) => {
 
 if(user){
@@ -275,6 +276,11 @@ chatBox.innerHTML += `
 
 <p>${data.text}</p>
 
+<button onclick="deleteMessage('${docItem.id}')">
+
+Delete
+
+</button>
 
 </div>
 `;
