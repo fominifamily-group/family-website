@@ -139,14 +139,7 @@ content="width=device-width, initial-scale=1.0">
     <div class="chat-box" id="chat-box">
 
 
-<hr>
-
 </div>
-
-`;
-
-<hr>
-
 
 
 <div class="chat-input">
@@ -265,7 +258,7 @@ onSnapshot(q, (snapshot) => {
 
 chatBox.innerHTML = "";
 
-snapshot.forEach((doc) => {
+snapshot.docs.forEach((doc) => {
 
 const data = doc.data();
 
@@ -276,11 +269,13 @@ chatBox.innerHTML += `
 
 <p>${data.text}</p>
 
-<button onclick="deleteMessage('${docItem.id}')">
+<button onclick="deleteMessage('${doc.id}')">
 
 Delete
 
 </button>
+
+<hr>
 
 </div>
 `;
