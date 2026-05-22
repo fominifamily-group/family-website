@@ -264,6 +264,9 @@ Logout
 id="message"
 placeholder="Type your message here...">
 
+<input type="file" id="image-input">
+
+
 <button id="send-btn">
 Send
 </button>
@@ -346,21 +349,55 @@ const sendBtn = document.getElementById("send-btn");
 
 const messageInput = document.getElementById("message");
 
+const imageInput = document.getElementById("image-input");
+
 const chatBox = document.getElementById("chat-box");
 
 sendBtn.addEventListener("click", async () => {
 
 const text = messageInput.value;
 
-if(text.trim() === "") return;
+const file = imageInput.files[0];
+
+let imageUrl = "";
+
+if(file){
+
+const formData = new FormData();
+
+formData.append("file", file);
+
+formData.append("upload_preset", "familychat");
+
+const response = await fetch(
+
+"https://api.cloudinary.com/v1_1/dhw5p0mov/image/upload",
+
+{
+
+method: "POST",
+
+body: formData
+
+}
+
+);
+
+const data = await response.json();
+
+imageUrl = data.secure_url;
+
+}
 
 await addDoc(collection(db, "messages"), {
 
-  name: currentUser,
+name: currentUser,
 
 text: text,
 
-photo: "https://i.pravatar.cc/150?img",
+photo: "https://i.pravatar.cc/150?img=3",
+
+image: imageUrl,
 
 time: Date.now()
 
@@ -368,7 +405,9 @@ time: Date.now()
 
 messageInput.value = "";
 
-});
+imageInput.value = "";
+
+}); 
 
 const q = query(collection(db, "messages"), orderBy("time"));
 
@@ -407,6 +446,15 @@ style="border-radius:50%;">
 
 ${data.text}
 
+${data.image ? `
+
+<img src="${data.image}"
+
+style="width:200px;
+margin-top:10px;
+border-radius:10px;">
+
+` : ""}
 </p>
 <button onclick="deleteMessage('${doc.id}')">
 
