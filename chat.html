@@ -360,6 +360,8 @@ Send
 </div>
 <script type="module">
 
+  let profilephoto ="";
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
@@ -507,7 +509,7 @@ name: currentUser,
 
 text: text,
 
-photo: "https://i.pravatar.cc/150?img=3",
+photo: profilePreview.src,
 
 image: imageUrl,
 
@@ -588,6 +590,10 @@ body:formData
 
 const data = await response.json();
 
+profilePreview.src = data.secure_url;
+
+profilePhoto = data.secure_url;
+
 await addDoc(collection(db, "messages"), {
 
 name: currentUser,
@@ -599,7 +605,7 @@ time: Date.now(),
 reply: replyingTo,
 
 
-photo: "https://i.pravatar.cc/150?img=3"
+photo: profilePhoto || "https://i.pravatar.cc/150?img=3",
 
 });
 
