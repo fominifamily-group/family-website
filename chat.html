@@ -237,6 +237,22 @@ font-size:16px;
 
 padding:12px;
 
+.my-message{
+
+align-self:flex-end;
+
+background:#dcf8c6;
+
+}
+
+.other-message{
+
+align-self:flex-start;
+
+background:white;
+
+}
+
 }
 
 #send-btn{
@@ -496,7 +512,7 @@ snapshot.docs.forEach((doc) => {
 const data = doc.data();
 
 chatBox.innerHTML += `
-<div class="message">
+<div class="message ${data.name === currentUser ? 'my-message' : 'other-message'}">
 
 <div style="display:flex;
 align-items:flex-start;
