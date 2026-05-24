@@ -62,7 +62,31 @@
         generations will proudly remember.
         </p>
     </section>
+<!-- ANNOUNCEMENTS -->
 
+<section id="announcements">
+
+<h2>📢 Family Announcements</h2>
+
+<div class="announcement-input">
+
+<input type="text"
+
+id="announcement-message"
+
+placeholder="Write announcement...">
+
+<button id="post-announcement">
+
+Post
+
+</button>
+
+</div>
+
+<div id="announcement-box"></div>
+
+</section>
     <section id="gallery">
         <h2>Family Gallery</h2>
 
@@ -158,5 +182,108 @@
 </footer>
 
     <script src="script.js"></script>
+
+    <script type="module">
+
+import { initializeApp }
+
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+
+getFirestore,
+collection,
+addDoc,
+query,
+orderBy,
+onSnapshot
+
+}
+
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyDDqCkLKD_zwYD4ffhgTxk9qQtXTyUTSXE",
+
+authDomain: "family-chat-4ae3c.firebaseapp.com",
+
+projectId: "family-chat-4ae3c",
+
+storageBucket: "family-chat-4ae3c.firebasestorage.app",
+
+messagingSenderId: "757400177632",
+
+appId: "1:757400177632:web:3b1743038b3c4a53c3985"
+
+};
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+const announcementInput = document.getElementById("announcement-message");
+
+const postAnnouncementBtn = document.getElementById("post-announcement");
+
+const announcementBox = document.getElementById("announcement-box");
+
+postAnnouncementBtn.addEventListener("click", async () => {
+
+if(announcementInput.value.trim() === "") return;
+
+await addDoc(collection(db, "announcements"), {
+
+text: announcementInput.value,
+
+time: Date.now(),
+
+sender: "Family Admin"
+
+});
+
+announcementInput.value = "";
+
+});
+
+const announcementQuery = query(
+
+collection(db, "announcements"),
+
+orderBy("time", "desc")
+
+);
+
+onSnapshot(announcementQuery, (snapshot) => {
+
+announcementBox.innerHTML = "";
+
+snapshot.docs.forEach((doc) => {
+
+const data = doc.data();
+
+announcementBox.innerHTML += `
+
+<div class="announcement">
+
+<h4>${data.sender}</h4>
+
+<p>${data.text}</p>
+
+<small>
+
+${new Date(data.time).toLocaleString()}
+
+</small>
+
+</div>
+
+`;
+
+});
+
+});
+
+</script>
 </body>
 </html>
