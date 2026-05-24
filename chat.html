@@ -495,6 +495,19 @@ style="border-radius:50%; object-fit:cover;">
 </p>
 
 <p>${data.text}</p>
+<p>${data.text}</p>
+
+<small style="color:gray; font-size:11px;">
+
+${new Date(data.time).toLocaleTimeString([], {
+
+hour: '2-digit',
+
+minute: '2-digit'
+
+})}
+
+</small>
 
 ${data.image ? `<img src="${data.image}" style="max-width:200px; border-radius:10px; margin-top:10px;">` : ""}
 
