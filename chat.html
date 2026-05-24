@@ -598,6 +598,8 @@ time: Date.now(),
 
 reply: replyingTo,
 
+replysender: currentUser,
+
 photo: "https://i.pravatar.cc/150?img=3"
 
 });
@@ -653,7 +655,25 @@ style="border-radius:50%; object-fit:cover;">
 </p>
 ${data.reply ? `
 
-<div style="background:#d1d1d1; padding:5px; border-left:4px solid #075e54; margin-bottom:5px; border-radius:5px; font-size:13px;">
+<div style="background:#d1d1d1;
+
+padding:6px;
+
+border-left:4px solid #075e54;
+
+margin-bottom:5px;
+
+border-radius:5px;
+
+font-size:13px;">
+
+<strong>
+
+Replying to
+
+</strong>
+
+<br>
 
 ${data.reply}
 
