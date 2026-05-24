@@ -629,3 +629,30 @@ text-align:left;
 box-shadow:0 2px 5px rgba(0,0,0,0.1);
 
 }
+#profile-section{
+
+padding:30px;
+
+text-align:center;
+
+background:white;
+
+}
+
+#upload-profile-btn{
+
+padding:10px 20px;
+
+background:#075e54;
+
+color:white;
+
+border:none;
+
+border-radius:10px;
+
+cursor:pointer;
+
+margin-top:10px;
+
+}
