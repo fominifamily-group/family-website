@@ -503,8 +503,11 @@ imageInput.value = "";
 let mediaRecorder;
 
 let audioChunks = [];
+let isRecording = false;
 
 recordBtn.addEventListener("click", async () => {
+
+if(!isRecording){
 
 const stream = await navigator.mediaDevices.getUserMedia({
 
@@ -517,6 +520,10 @@ mediaRecorder = new MediaRecorder(stream);
 mediaRecorder.start();
 
 audioChunks = [];
+
+isRecording = true;
+
+recordBtn.innerHTML = "⏹️";
 
 mediaRecorder.addEventListener("dataavailable", event => {
 
@@ -570,11 +577,17 @@ photo: "https://i.pravatar.cc/150?img=3"
 
 });
 
-setTimeout(() => {
+}
+
+else{
 
 mediaRecorder.stop();
 
-}, 5000);
+isRecording = false;
+
+recordBtn.innerHTML = "🎤";
+
+}
 
 });
 
@@ -608,11 +621,11 @@ style="border-radius:50%; object-fit:cover;">
 
 <p>
 
-<strong>${data.name}</strong>
+<strong>${data.name || "User"}</strong>
 
 </p>
 
-<p>${data.text}</p>
+<p>${data.text || ""}</p>
 
 <small style="color:gray; font-size:11px;">
 
