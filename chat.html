@@ -352,7 +352,8 @@ query,
 orderBy,
 onSnapshot,
 deleteDoc,
-doc
+doc,
+updateDoc,
 
 
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -639,6 +640,12 @@ minute: '2-digit'
 
 </small>
 
+<p style="margin-top:5px; font-size:18px;">
+
+${data.reaction || ""}
+
+</p>
+
 ${data.image ? `<img src="${data.image}" style="max-width:200px; border-radius:10px; margin-top:10px;">` : ""}
 
 ${data.audio ? `
@@ -650,6 +657,18 @@ ${data.audio ? `
 </audio>
 
 ` : ""}
+
+<div style="margin-top:5px;">
+
+<button onclick="reactMessage('${doc.id}','👍')">👍</button>
+
+<button onclick="reactMessage('${doc.id}','❤️')">❤️</button>
+
+<button onclick="reactMessage('${doc.id}','😂')">😂</button>
+
+<button onclick="reactMessage('${doc.id}','🔥')">🔥</button>
+
+</div>
 
 <button onclick="deleteMessage('${doc.id}')">
 
@@ -677,6 +696,18 @@ await deleteDoc(doc(db, "messages", id));
 }
 window.deleteMessage = deleteMessage;
 const logoutBtn = document.getElementById("logout-btn");
+
+async function reactMessage(id, emoji){
+
+await updateDoc(doc(db, "messages", id), {
+
+reaction: emoji
+
+});
+
+}
+
+window.reactMessage = reactMessage;
 
 logoutBtn.addEventListener("click", async () => {
 
