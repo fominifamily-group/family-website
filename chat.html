@@ -526,7 +526,11 @@ audioChunks.push(event.data);
 
 mediaRecorder.addEventListener("stop", async () => {
 
-const audioBlob = new Blob(audioChunks);
+const audioBlob = new Blob(audioChunks, {
+
+type:'audio/webm'
+
+});
 
 const formData = new FormData();
 
@@ -628,7 +632,7 @@ ${data.audio ? `
 
 <audio controls style="margin-top:10px; width:100%;">
 
-<source src="${data.audio}">
+<source src="${data.audio}" type="audio/webm">
 
 </audio>
 
