@@ -322,6 +322,8 @@ window.deleteAnnouncement = async function(id){
 
 await deleteDoc(doc(db, "announcements", id));
 
+}
+
 const profileInput = document.getElementById("profile-pic-input");
 
 const uploadProfileBtn = document.getElementById("upload-profile-btn");
@@ -387,7 +389,7 @@ profilePreview.src = profileSnap.data().photo;
 
 loadProfile();
 
-}
+
 </script>
 </body>
 </html>
