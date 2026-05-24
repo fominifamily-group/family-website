@@ -602,6 +602,8 @@ audio: data.secure_url,
 
 time: Date.now(),
 
+seen: false,
+
 reply: replyingTo,
 
 
@@ -632,6 +634,15 @@ onSnapshot(q, (snapshot) => {
 chatBox.innerHTML = "";
 
 snapshot.docs.forEach((doc) => {
+  if(data.name !== currentUser && !data.seen){
+
+updateDoc(doc.ref, {
+
+seen:true
+
+});
+
+}
 
 const data = doc.data();
 
@@ -697,6 +708,14 @@ hour: '2-digit',
 minute: '2-digit'
 
 })}
+
+</small>
+
+<br>
+
+<small style="color:gray; font-size:11px;">
+
+${data.seen ? "✓✓ Seen" : "✓ Sent"}
 
 </small>
 
