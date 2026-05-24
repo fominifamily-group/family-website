@@ -658,17 +658,21 @@ ${data.audio ? `
 
 ` : ""}
 
-<div style="margin-top:5px;">
+<select onchange="reactMessage('${doc.id}', this.value)"
 
-<button onclick="reactMessage('${doc.id}','👍')">👍</button>
+style="margin-top:5px; border-radius:10px; padding:3px;">
 
-<button onclick="reactMessage('${doc.id}','❤️')">❤️</button>
+<option value="">😀 React</option>
 
-<button onclick="reactMessage('${doc.id}','😂')">😂</button>
+<option value="👍">👍</option>
 
-<button onclick="reactMessage('${doc.id}','🔥')">🔥</button>
+<option value="❤️">❤️</option>
 
-</div>
+<option value="😂">😂</option>
+
+<option value="🔥">🔥</option>
+
+</select>
 
 <button onclick="deleteMessage('${doc.id}')">
 
