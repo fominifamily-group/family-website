@@ -590,8 +590,6 @@ body:formData
 
 const data = await response.json();
 
-profilePreview.src = data.secure_url;
-
 profilePhoto = data.secure_url;
 
 await addDoc(collection(db, "messages"), {
@@ -654,16 +652,17 @@ chatBox.innerHTML += `
 
 <div class="message">
 
-  <img src="${data.photo}"
+  <div style="display:flex; align-items:flex-start; gap:10px;">
 
-<div style="display:flex; align-items:flex-start; gap:10px;">
-
+<img src="${data.photo || 'https://i.pravatar.cc/40'}"
 
 width="40"
 
 height="40"
 
 style="border-radius:50%; object-fit:cover;">
+
+<div>
 
 <div>
 
@@ -712,13 +711,6 @@ minute: '2-digit'
 
 })}
 
-</small>
-
-<br>
-
-<small style="color:gray; font-size:11px;">
-
-${data.seen ? "✓✓ Seen" : "✓ Sent"}
 
 </small>
 
