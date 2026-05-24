@@ -288,23 +288,6 @@ width:100%;
 max-width:90%;
 
 }
-#record-btn{
-
-background:#128c7e;
-
-color:white;
-
-border:none;
-
-padding:12px 16px;
-
-border-radius:25px;
-
-cursor:pointer;
-
-font-size:16px;
-
-}
 
 }
 
@@ -314,15 +297,17 @@ font-size:16px;
 <div class="chat-container">
 
     <h1>Family Chat Room</h1>
+<p id="status"
 
-<p id="status" style="text-align:center; color:green; margin:5px; font-weight:bold;">
-  <p id="typing-status"
+style="text-align:center; color:green; margin:5px; font-weight:bold;">
 
-style="text-align:center; color:gray; font-size:14px; margin:5px;">
+🟢 Online
 
 </p>
 
-🟢 Online
+<p id="typing-status"
+
+style="text-align:center; color:gray; font-size:14px; margin:5px;">
 
 </p>
     <button id="logout-btn">
@@ -345,10 +330,6 @@ placeholder="Type your message here...">
 
 <input type="file" id="image-input">
 
-
-<button id="record-btn">
-🎤
-</button>
 
 <button id="send-btn">
 Send
@@ -430,13 +411,12 @@ await signOut(auth);
 
 
 
-const sendBtn = document.getElementById("send-btn");y
-
-const recordBtn = document.getElementById("record-btn");
+const sendBtn = document.getElementById("send-btn");
 
 const messageInput = document.getElementById("message");
 
 const typingStatus = document.getElementById("typing-status");
+
 
 messageInput.addEventListener("input", () => {
 
@@ -453,16 +433,12 @@ typingStatus.innerHTML = "";
 });
 
 
+
 const imageInput = document.getElementById("image-input");
 
 const chatBox = document.getElementById("chat-box");
 
-let mediaRecorder;
-
-let audioChunks = [];
-
 sendBtn.addEventListener("click", async () => {
-
 
 const text = messageInput.value;
 
@@ -509,76 +485,6 @@ photo: "https://i.pravatar.cc/150?img=3",
 image: imageUrl,
 
 time: Date.now()
-
-});
-
-recordBtn.addEventListener("click", async () => {
-
-const stream = await navigator.mediaDevices.getUserMedia({
-
-audio:true
-
-});
-
-mediaRecorder = new MediaRecorder(stream);
-
-mediaRecorder.start();
-
-audioChunks = [];
-
-mediaRecorder.addEventListener("dataavailable", event => {
-
-audioChunks.push(event.data);
-
-});
-
-mediaRecorder.addEventListener("stop", async () => {
-
-const audioBlob = new Blob(audioChunks);
-
-const formData = new FormData();
-
-formData.append("file", audioBlob);
-
-formData.append("upload_preset", "familychat");
-
-formData.append("resource_type", "video");
-
-const response = await fetch(
-
-"https://api.cloudinary.com/v1_1/dhw5p0mov/video/upload",
-
-{
-
-method:"POST",
-
-body:formData
-
-}
-
-);
-
-const data = await response.json();
-
-await addDoc(collection(db, "messages"), {
-
-name: currentUser,
-
-audio: data.secure_url,
-
-time: Date.now(),
-
-photo: "https://i.pravatar.cc/150?img=3"
-
-});
-
-});
-
-setTimeout(() => {
-
-mediaRecorder.stop();
-
-}, 5000);
 
 });
 
@@ -637,15 +543,6 @@ minute: '2-digit'
 </small>
 
 ${data.image ? `<img src="${data.image}" style="max-width:200px; border-radius:10px; margin-top:10px;">` : ""}
-${data.audio ? `
-
-<audio controls style="margin-top:10px; width:100%;">
-
-<source src="${data.audio}">
-
-</audio>
-
-` : ""}
 
 <button onclick="deleteMessage('${doc.id}')">
 
