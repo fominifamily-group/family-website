@@ -634,6 +634,9 @@ onSnapshot(q, (snapshot) => {
 chatBox.innerHTML = "";
 
 snapshot.docs.forEach((doc) => {
+
+  const data = doc.data();
+
   if(data.name !== currentUser && !data.seen){
 
 updateDoc(doc.ref, {
@@ -644,7 +647,6 @@ seen:true
 
 }
 
-const data = doc.data();
 
 chatBox.innerHTML += `
 
