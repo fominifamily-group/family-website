@@ -321,6 +321,24 @@ Logout
 
 </div>
 
+<div id="reply-preview"
+
+style="display:none; background:#ddd; padding:8px; font-size:14px;">
+
+Replying to:
+
+<span id="reply-text"></span>
+
+<button onclick="cancelReply()"
+
+style="float:right;">
+
+X
+
+</button>
+
+</div>
+
 
 <div class="chat-input">
 
@@ -389,6 +407,8 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 
 let currentUser = "";
+
+let replyingTo = "";
 
 onAuthStateChanged(auth, (user) => {
 
@@ -495,6 +515,10 @@ time: Date.now()
 
 });
 
+replyingTo = "";
+
+document.getElementById("reply-preview").style.display = "none";
+
 messageInput.value = "";
 
 imageInput.value = "";
@@ -572,6 +596,8 @@ audio: data.secure_url,
 
 time: Date.now(),
 
+reply: replyingTo,
+
 photo: "https://i.pravatar.cc/150?img=3"
 
 });
@@ -625,6 +651,15 @@ style="border-radius:50%; object-fit:cover;">
 <strong>${data.name || "User"}</strong>
 
 </p>
+${data.reply ? `
+
+<div style="background:#d1d1d1; padding:5px; border-left:4px solid #075e54; margin-bottom:5px; border-radius:5px; font-size:13px;">
+
+${data.reply}
+
+</div>
+
+` : ""}
 
 <p>${data.text || ""}</p>
 
@@ -674,6 +709,12 @@ style="margin-top:5px; border-radius:10px; padding:3px;">
 
 </select>
 
+<button onclick="setReply('${data.text || "Voice message"}')">
+
+Reply
+
+</button>
+
 <button onclick="deleteMessage('${doc.id}')">
 
 Delete
@@ -700,6 +741,27 @@ await deleteDoc(doc(db, "messages", id));
 }
 window.deleteMessage = deleteMessage;
 const logoutBtn = document.getElementById("logout-btn");
+function setReply(text){
+
+replyingTo = text;
+
+document.getElementById("reply-preview").style.display = "block";
+
+document.getElementById("reply-text").innerHTML = text;
+
+}
+
+window.setReply = setReply;
+
+function cancelReply(){
+
+replyingTo = "";
+
+document.getElementById("reply-preview").style.display = "none";
+
+}
+
+window.cancelReply = cancelReply;
 
 async function reactMessage(id, emoji){
 
