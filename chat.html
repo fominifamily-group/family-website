@@ -655,27 +655,27 @@ style="border-radius:50%; object-fit:cover;">
 </p>
 ${data.reply ? `
 
-<div style="background:#d1d1d1;
+<div style="background:#d9d9d9;
 
 padding:6px;
 
 border-left:4px solid #075e54;
 
-margin-bottom:5px;
+border-radius:6px;
 
-border-radius:5px;
+margin-bottom:6px;
 
 font-size:13px;">
 
 <strong>
 
-Replying to
+${data.reply.name}
 
 </strong>
 
 <br>
 
-${data.reply}
+${data.reply.text}
 
 </div>
 
@@ -729,7 +729,7 @@ style="margin-top:5px; border-radius:10px; padding:3px;">
 
 </select>
 
-<button onclick="setReply('${data.text || "Voice message"}')">
+<button onclick="setReply('${data.name}','${data.text || "Voice message"}')">
 
 Reply
 
@@ -761,9 +761,15 @@ await deleteDoc(doc(db, "messages", id));
 }
 window.deleteMessage = deleteMessage;
 const logoutBtn = document.getElementById("logout-btn");
-function setReply(text){
+function setReply(name, text){
 
-replyingTo = text;
+replyingTo = {
+
+name:name,
+
+text:text
+
+};
 
 document.getElementById("reply-preview").style.display = "block";
 
