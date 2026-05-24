@@ -196,7 +196,9 @@ collection,
 addDoc,
 query,
 orderBy,
-onSnapshot
+onSnapshot,
+deleteDoc,
+doc
 
 }
 
@@ -275,6 +277,13 @@ announcementBox.innerHTML += `
 ${new Date(data.time).toLocaleString()}
 
 </small>
+<br><br>
+
+<button onclick="deleteAnnouncement('${doc.id}')">
+
+Delete
+
+</button>
 
 </div>
 
@@ -283,7 +292,11 @@ ${new Date(data.time).toLocaleString()}
 });
 
 });
+window.deleteAnnouncement = async function(id){
 
+await deleteDoc(doc(db, "announcements", id));
+
+}
 </script>
 </body>
 </html>
