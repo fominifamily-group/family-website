@@ -656,3 +656,14 @@ cursor:pointer;
 margin-top:10px;
 
 }
+.sent-text{
+color:gray;
+font-size:12px;
+font-weight:bold;
+}
+
+.seen-text{
+color:blue;
+font-size:12px;
+font-weight:bold;
+}
