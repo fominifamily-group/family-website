@@ -328,7 +328,10 @@ const uploadProfileBtn = document.getElementById("upload-profile-btn");
 
 const profilePreview = document.getElementById("profile-preview");
 
+console.log("JavaScript loaded");
+
 uploadProfileBtn.addEventListener("click", async () => {
+    alert("Upload button clicked");
 
 const file = profileInput.files[0];
 
