@@ -325,6 +325,8 @@ max-width:75%;
 
 word-break:break-word;
 
+box-shadow:0 1px 1px rgba(0,0,0,0.1);
+
 }
 
 .my-message .message{
@@ -336,6 +338,8 @@ background:#dcf8c6;
 }
 
 }
+
+
 
 
 
@@ -553,19 +557,20 @@ snapshot.docs.forEach((doc) => {
 const data = doc.data();
 
 chatBox.innerHTML += `
+
 <div class="${data.name === currentUser ? 'my-message' : 'other-message'}">
 
-<div class="message" style="display:flex;
-align-items:flex-start;
-gap:10px;">
+<div class="message">
+
+<div style="display:flex; align-items:flex-start; gap:10px;">
 
 <img src="${data.photo}"
 
-width="50"
+width="40"
 
-height="50"
+height="40"
 
-style="border-radius:50%;">
+style="border-radius:50%; object-fit:cover;">
 
 <div>
 
@@ -575,30 +580,24 @@ style="border-radius:50%;">
 
 </p>
 
-<p>
+<p>${data.text}</p>
 
-${data.text}
+${data.image ? `<img src="${data.image}" style="max-width:200px; border-radius:10px; margin-top:10px;">` : ""}
 
-${data.image ? `
-
-<img src="${data.image}"
-
-style="width:200px;
-margin-top:10px;
-border-radius:10px;">
-
-` : ""}
-</p>
 <button onclick="deleteMessage('${doc.id}')">
 
 Delete
 
 </button>
+
+</div>
+
 </div>
 
 </div>
 
 </div>
+
 `;
 
 });
