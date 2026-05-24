@@ -590,6 +590,7 @@ body:formData
 
 const data = await response.json();
 
+photo: profilephoto || "https://i.pravata.cc/150?img=3",
 profilePhoto = data.secure_url;
 
 await addDoc(collection(db, "messages"), {
@@ -713,6 +714,18 @@ minute: '2-digit'
 
 
 </small>
+
+ <br>
+
+<span style="
+color:${data.seen ? 'blue' : 'gray'};
+font-size:12px;
+font-weight:bold;
+">
+
+${data.seen ? '✓✓ Seen' : '✓ Sent'}
+
+</span>
 
 <p style="margin-top:5px; font-size:18px;">
 
