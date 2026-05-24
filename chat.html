@@ -297,6 +297,12 @@ max-width:90%;
 <div class="chat-container">
 
     <h1>Family Chat Room</h1>
+
+<p id="status" style="text-align:center; color:green; margin:5px; font-weight:bold;">
+
+🟢 Online
+
+</p>
     <button id="logout-btn">
 
 Logout
@@ -375,6 +381,7 @@ let currentUser = "";
 onAuthStateChanged(auth, (user) => {
 
 if(user){
+  document.getElementById("status").innerHTML = "🟢 Online";
 
 currentUser = user.displayName;
 
@@ -389,6 +396,7 @@ window.location.href = "login.html";
 });
 
 window.addEventListener("beforeunload", async () => {
+  document.getElementById("status").innerHTML = "🔴 Offline";
 
 await signOut(auth);
 
@@ -494,7 +502,6 @@ style="border-radius:50%; object-fit:cover;">
 
 </p>
 
-<p>${data.text}</p>
 <p>${data.text}</p>
 
 <small style="color:gray; font-size:11px;">
