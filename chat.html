@@ -295,27 +295,49 @@ width:100%;
 }
 .my-message{
 
-align-self:flex-end;
+display:flex;
 
-background:#dcf8c6;
+justify-content:flex-end;
 
-margin-left:auto;
+width:100%;
 
 }
 
 .other-message{
 
-align-self:flex-start;
+display:flex;
+
+justify-content:flex-start;
+
+width:100%;
+
+}
+
+.message{
 
 background:white;
 
-margin-right:auto;
+padding:10px;
+
+border-radius:10px;
+
+max-width:75%;
+
+word-break:break-word;
+
+}
+
+.my-message .message{
+
+background:#dcf8c6;
 
 }
 
 }
 
 }
+
+
 
 
 </style>
@@ -436,7 +458,7 @@ onAuthStateChanged(auth, (user) => {
 
 if(user){
 
-currentUser = user.email;
+currentUser = user.displayName;
 
 }
 
@@ -531,9 +553,9 @@ snapshot.docs.forEach((doc) => {
 const data = doc.data();
 
 chatBox.innerHTML += `
-<div class="message ${data.name === currentUser ? 'my-message' : 'other-message'}">
+<div class="${data.name === currentUser ? 'my-message' : 'other-message'}">
 
-<div style="display:flex;
+<div class="message" style="display:flex;
 align-items:flex-start;
 gap:10px;">
 
