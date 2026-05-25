@@ -467,11 +467,15 @@ const imageInput = document.getElementById("image-input");
 
 const chatBox = document.getElementById("chat-box");
 
+
+
 sendBtn.addEventListener("click", async () => {
 
-const text = messageInput.value;
+const text = messageInput.value.trim();
 
 const file = imageInput.files[0];
+
+if(text === "" && !file) return;
 
 let imageUrl = "";
 
@@ -484,17 +488,11 @@ formData.append("file", file);
 formData.append("upload_preset", "familychat");
 
 const response = await fetch(
-
 "https://api.cloudinary.com/v1_1/dhw5p0mov/image/upload",
-
 {
-
-method: "POST",
-
-body: formData
-
+method:"POST",
+body:formData
 }
-
 );
 
 const data = await response.json();
@@ -509,23 +507,27 @@ name: currentUser,
 
 text: text,
 
-photo: profilePreview.src,
+photo: profilephoto || "https://i.pravatar.cc/150?img=3",
 
 image: imageUrl,
 
-time: Date.now()
+time: Date.now(),
+
+seen:false,
+
+reply: replyingTo || ""
 
 });
-
-replyingTo = "";
-
-document.getElementById("reply-preview").style.display = "none";
 
 messageInput.value = "";
 
 imageInput.value = "";
 
-}); 
+replyingTo = "";
+
+document.getElementById("reply-preview").style.display = "none";
+
+});
 
 let mediaRecorder;
 
@@ -590,6 +592,8 @@ body:formData
 
 const data = await response.json();
 
+photo: profilephoto || "https://i.pravata.cc/150?img=3",
+profilePhoto = data.secure_url;
 
 await addDoc(collection(db, "messages"), {
 
@@ -597,9 +601,9 @@ name: currentUser,
 
 text:text,
 
-photo: profilephoto || "https://i.pravata.cc/150?img=3",
 
-image:imageUrl,
+
+audio: data.secure_url,
 
 time: Date.now(),
 
@@ -607,6 +611,8 @@ seen: false,
 
 reply: replyingTo,
 
+
+photo: profilePhoto || "https://i.pravatar.cc/150?img=3",
 
 });
 
