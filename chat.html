@@ -632,13 +632,13 @@ onSnapshot(q, (snapshot) => {
 
 chatBox.innerHTML = "";
 
-snapshot.docs.forEach((doc) => {
+snapshot.docs.forEach((docItem) => {
 
-  const data = doc.data();
+const data = docItem.data();
 
-  if(data.name !== currentUser && !data.seen){
+if(data.name !== currentUser && !data.seen){
 
-updateDoc(doc.ref, {
+updateDoc(docItem.ref, {
 
 seen:true
 
@@ -646,53 +646,36 @@ seen:true
 
 }
 
-
 chatBox.innerHTML += `
 
 <div class="${data.name === currentUser ? 'my-message' : 'other-message'}">
 
 <div class="message">
 
-  <div style="display:flex; align-items:flex-start; gap:10px;">
+<div style="display:flex; gap:10px; align-items:flex-start;">
 
-<img src="${data.photo || 'https://i.pravatar.cc/40'}"
-
+<img 
+src="${data.photo || 'https://i.pravatar.cc/40'}"
 width="40"
-
 height="40"
-
 style="border-radius:50%; object-fit:cover;">
 
 <div>
 
-<div>
-
-<p>
-
 <strong>${data.name || "User"}</strong>
 
-</p>
 ${data.reply ? `
 
-<div style="background:#d9d9d9;
-
-padding:6px;
-
+<div style="
+background:#ddd;
+padding:5px;
 border-left:4px solid #075e54;
+margin-bottom:5px;
+border-radius:5px;
+font-size:13px;
+">
 
-border-radius:6px;
-
-margin-bottom:6px;
-
-font-size:13px;">
-
-<strong>
-
-${data.reply.name}
-
-</strong>
-
-<br>
+<strong>${data.reply.name}</strong><br>
 
 ${data.reply.text}
 
@@ -706,16 +689,14 @@ ${data.reply.text}
 
 ${new Date(data.time).toLocaleTimeString([], {
 
-hour: '2-digit',
-
-minute: '2-digit'
+hour:'2-digit',
+minute:'2-digit'
 
 })}
 
-
 </small>
 
- <br>
+<br>
 
 <span style="
 color:${data.seen ? 'blue' : 'gray'};
@@ -727,13 +708,17 @@ ${data.seen ? '✓✓ Seen' : '✓ Sent'}
 
 </span>
 
-<p style="margin-top:5px; font-size:18px;">
+${data.image ? `
 
-${data.reaction || ""}
+<img 
+src="${data.image}"
+style="
+max-width:200px;
+border-radius:10px;
+margin-top:10px;
+">
 
-</p>
-
-${data.image ? `<img src="${data.image}" style="max-width:200px; border-radius:10px; margin-top:10px;">` : ""}
+` : ""}
 
 ${data.audio ? `
 
@@ -745,18 +730,18 @@ ${data.audio ? `
 
 ` : ""}
 
-<select onchange="reactMessage('${doc.id}', this.value)"
+<p style="font-size:18px; margin-top:5px;">
 
-style="margin-top:5px; border-radius:10px; padding:3px;">
+${data.reaction || ""}
+
+</p>
+
+<select onchange="reactMessage('${docItem.id}', this.value)">
 
 <option value="">😀 React</option>
-
 <option value="👍">👍</option>
-
 <option value="❤️">❤️</option>
-
 <option value="😂">😂</option>
-
 <option value="🔥">🔥</option>
 
 </select>
@@ -767,7 +752,7 @@ Reply
 
 </button>
 
-<button onclick="deleteMessage('${doc.id}')">
+<button onclick="deleteMessage('${docItem.id}')">
 
 Delete
 
@@ -786,6 +771,7 @@ Delete
 });
 
 });
+
 async function deleteMessage(id) {
 
 await deleteDoc(doc(db, "messages", id));
