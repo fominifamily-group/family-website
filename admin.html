@@ -171,7 +171,11 @@ const deleteUserBtn = document.getElementById("delete-user-btn");
 
 deleteUserBtn.addEventListener("click", async () => {
 
-const username = document.getElementById("delete-user-name").value.trim();
+const username = document
+.getElementById("delete-user-name")
+.value
+.trim()
+.toLowerCase();
 
 if(username === ""){
 
@@ -181,31 +185,35 @@ return;
 
 }
 
-const q = query(
+const snapshot = await getDocs(collection(db, "messages"));
 
-collection(db, "messages"),
+let found = false;
 
-where("name", "==", username)
+for(const messageDoc of snapshot.docs){
 
-);
+const data = messageDoc.data();
 
-const snapshot = await getDocs(q);
-
-if(snapshot.empty){
-
-alert("No messages found");
-
-return;
-
-}
-
-for (const messageDoc of snapshot.docs){
+if(data.name && data.name.toLowerCase().includes(username)){
 
 await deleteDoc(doc(db, "messages", messageDoc.id));
 
+found = true;
+
 }
 
+}
+
+if(found){
+
 alert("User messages deleted successfully");
+
+}
+
+else{
+
+alert("No messages found");
+
+}
 
 });
 
