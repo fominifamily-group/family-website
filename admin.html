@@ -83,6 +83,20 @@ Post Announcement
 
 <h3>Admin Actions</h3>
 
+<h3>Delete User Messages</h3>
+
+<input type="text"
+
+id="delete-user-name"
+
+placeholder="Enter username">
+
+<button id="delete-user-btn">
+
+Delete User Messages
+
+</button>
+
 <button onclick="window.location.href='chat.html'">
 
 Open Family Chat
@@ -99,9 +113,12 @@ from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
 
-getFirestore,
-collection,
-addDoc
+addDoc,
+getDocs,
+query,
+where,
+deleteDoc,
+doc
 
 }
 
@@ -144,6 +161,34 @@ time:Date.now()
 });
 
 alert("Announcement Posted");
+
+const deleteUserBtn = document.getElementById("delete-user-btn");
+
+deleteUserBtn.addEventListener("click", async () => {
+
+const username = document.getElementById("delete-user-name").value;
+
+if(username === "") return;
+
+const q = query(
+
+collection(db, "messages"),
+
+where("name", "==", username)
+
+);
+
+const snapshot = await getDocs(q);
+
+snapshot.forEach(async (messageDoc) => {
+
+await deleteDoc(doc(db, "messages", messageDoc.id));
+
+});
+
+alert("User messages deleted");
+
+});
 
 });
 
