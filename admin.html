@@ -112,7 +112,8 @@ import { initializeApp }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
-
+getFirestore,
+collection,
 addDoc,
 getDocs,
 query,
@@ -162,13 +163,23 @@ time:Date.now()
 
 alert("Announcement Posted");
 
+
+
+});
+
 const deleteUserBtn = document.getElementById("delete-user-btn");
 
 deleteUserBtn.addEventListener("click", async () => {
 
-const username = document.getElementById("delete-user-name").value;
+const username = document.getElementById("delete-user-name").value.trim();
 
-if(username === "") return;
+if(username === ""){
+
+alert("Enter username");
+
+return;
+
+}
 
 const q = query(
 
@@ -180,17 +191,25 @@ where("name", "==", username)
 
 const snapshot = await getDocs(q);
 
-snapshot.forEach(async (messageDoc) => {
+if(snapshot.empty){
+
+alert("No messages found");
+
+return;
+
+}
+
+for (const messageDoc of snapshot.docs){
 
 await deleteDoc(doc(db, "messages", messageDoc.id));
 
-});
+}
 
-alert("User messages deleted");
-
-});
+alert("User messages deleted successfully");
 
 });
+
+
 
 </script>
 
