@@ -593,7 +593,7 @@ body:formData
 const data = await response.json();
 
 photo: profilephoto || "https://i.pravata.cc/150?img=3",
-profilePhoto = data.secure_url;
+
 
 await addDoc(collection(db, "messages"), {
 
@@ -612,7 +612,7 @@ seen: false,
 reply: replyingTo,
 
 
-photo: profilePhoto || "https://i.pravatar.cc/150?img=3",
+photo: profilephoto || "https://i.pravatar.cc/150?img=3",
 
 });
 
