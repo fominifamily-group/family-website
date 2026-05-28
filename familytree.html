@@ -157,8 +157,6 @@ Edit
 
 }
 
-loadFamilyMembers();
-
 window.deleteMember = async function(id){
 
 await deleteDoc(doc(db, "familyMembers", id));
@@ -198,6 +196,8 @@ alert("Member updated!");
 location.reload();
 
 }
+
+loadFamilyMembers();
 </script>
 </body>
 
