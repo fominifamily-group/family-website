@@ -13,100 +13,137 @@
 
 </head>
 
-<body>
 
     <body>
 
 <div class="tree-container">
 
-<h1>The Benyebaar Family Tree</h1>
+<h1>The Fomini Family Tree</h1>
 
 <a href="home.html" class="back-btn">
 Back Home
 </a>
 
-<!-- GRANDPARENTS -->
-
-<div class="member grandparent">
-
-<img src="images/grandpa.jpg">
-
-<h2>Grandfather</h2>
-
-<p>Family Patriarch</p>
-
-</div>
-
-<div class="line"></div>
-
-<!-- PARENTS -->
-
-<div class="parents">
-
-<div class="member parent">
-
-<img src="images/father.jpg">
-
-<h2>Father</h2>
-
-<p>Head of Family</p>
-
-</div>
-
-<div class="member parent">
-
-<img src="images/mother.jpg">
-
-<h2>Mother</h2>
-
-<p>Family Caregiver</p>
+<div id="family-tree"></div>
 
 </div>
 
 </div>
 
-<div class="line"></div>
+</div>
 
-<!-- CHILDREN -->
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+
+</div>
+<script type="module">
+
+import { initializeApp }
+
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+
+getFirestore,
+collection,
+getDocs
+
+}
+
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyDDqCkLKD_zwYD4ffhgTxk9qQtXTyUTSXE",
+
+authDomain: "family-chat-4ae3c.firebaseapp.com",
+
+projectId: "family-chat-4ae3c",
+
+storageBucket: "family-chat-4ae3c.firebasestorage.app",
+
+messagingSenderId: "757400177632",
+
+appId: "1:757400177632:web:3b1743038b3c4a53c3985"
+
+};
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+const familyTree = document.getElementById("family-tree");
+
+async function loadFamilyMembers(){
+
+const snapshot = await getDocs(collection(db, "familyMembers"));
+
+const groupedFamilies = {};
+
+snapshot.forEach((doc) => {
+
+const data = doc.data();
+
+if(!groupedFamilies[data.family]){
+
+groupedFamilies[data.family] = [];
+
+}
+
+groupedFamilies[data.family].push(data);
+
+});
+
+familyTree.innerHTML = "";
+
+for(const familyName in groupedFamilies){
+
+familyTree.innerHTML += `
+
+<div class="family-group">
+
+<h2 class="family-title">
+
+${familyName}
+
+</h2>
 
 <div class="children">
 
-<div class="member child">
-
-<img src="images/child1.jpg">
-
-<h2>Child 1</h2>
-
-<p>First Born</p>
-
-</div>
+${groupedFamilies[familyName].map(member => `
 
 <div class="member child">
 
-<img src="images/child2.jpg">
+<img src="${member.photo}">
 
-<h2>Child 2</h2>
+<h2>${member.name}</h2>
 
-<p>Second Born</p>
+<p>${member.role}</p>
 
 </div>
 
-<div class="member child">
-
-<img src="images/child3.jpg">
-
-<h2>Child 3</h2>
-
-<p>Third Born</p>
+`).join("")}
 
 </div>
 
 </div>
 
-</div>
+`;
 
+}
+
+}
+
+loadFamilyMembers();
+
+</script>
 </body>
 
-</body>
 
 </html>
