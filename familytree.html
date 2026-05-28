@@ -53,7 +53,7 @@ import {
 getFirestore,
 collection,
 getDocs,
-deleteDoc,
+deleteDoc, 
 doc,
 updateDoc
 
@@ -139,8 +139,6 @@ ${groupedFamilies[familyName].map(member => `
 
 Delete
 
-</button>
-
 <button onclick="editMember(
 '${member.id}',
 '${member.name}',
@@ -151,6 +149,8 @@ Delete
 Edit
 
 </button>
+
+
 </div>
 
 </div>
