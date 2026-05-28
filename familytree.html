@@ -116,9 +116,9 @@ const snapshot = await getDocs(collection(db, "familyMembers"));
 
 const groupedFamilies = {};
 
-snapshot.forEach((doc) => {
+snapshot.forEach((documentSnapshot) => {
 
-const data = doc.data();
+const data = documentSnapshot.data();
 
 if(!groupedFamilies[data.family]){
 
@@ -128,7 +128,7 @@ groupedFamilies[data.family] = [];
 
 groupedFamilies[data.family].push({
 
-id: doc.id,
+id: documentSnapshot.id,
 
 ...data
 
