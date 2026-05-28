@@ -69,6 +69,47 @@ const db = getFirestore(app);
 
 const familyTree = document.getElementById("family-tree");
 
+window.deleteMember = async function(id){
+
+await deleteDoc(doc(db, "familyMembers", id));
+
+alert("Member deleted!");
+
+location.reload();
+
+}
+
+window.editMember = async function(id, oldName, oldRole, oldFamily){
+
+const newName = prompt("Edit Name", oldName);
+
+if(newName === null) return;
+
+const newRole = prompt("Edit Role", oldRole);
+
+if(newRole === null) return;
+
+const newFamily = prompt("Edit Family", oldFamily);
+
+if(newFamily === null) return;
+
+await updateDoc(doc(db, "familyMembers", id), {
+
+name:newName,
+
+role:newRole,
+
+family:newFamily
+
+});
+
+alert("Member updated!");
+
+location.reload();
+
+}
+
+
 async function loadFamilyMembers(){
 
 const snapshot = await getDocs(collection(db, "familyMembers"));
@@ -157,47 +198,7 @@ Edit
 
 }
 
-window.deleteMember = async function(id){
-
-await deleteDoc(doc(db, "familyMembers", id));
-
-alert("Member deleted!");
-
-location.reload();
-
-}
-
-window.editMember = async function(id, oldName, oldRole, oldFamily){
-
-const newName = prompt("Edit Name", oldName);
-
-if(newName === null) return;
-
-const newRole = prompt("Edit Role", oldRole);
-
-if(newRole === null) return;
-
-const newFamily = prompt("Edit Family", oldFamily);
-
-if(newFamily === null) return;
-
-await updateDoc(doc(db, "familyMembers", id), {
-
-name:newName,
-
-role:newRole,
-
-family:newFamily
-
-});
-
-alert("Member updated!");
-
-location.reload();
-
-}
-
-loadFamilyMembers();
+ loadFamilyMembers()
 </script>
 </body>
 
