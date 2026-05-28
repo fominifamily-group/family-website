@@ -26,20 +26,6 @@ Back Home
 
 <div id="family-tree"></div>
 
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
 
 </div>
 <script type="module">
@@ -133,11 +119,13 @@ ${groupedFamilies[familyName].map(member => `
 
 <h2>${member.name}</h2>
 
-<p>${member.role}</p>
+<p>${member.role}</p
 
-<button onclick="deleteMember('${member.id}')">
+    <button onclick="deleteMember('${member.id}')">
 
 Delete
+
+</button>
 
 <button onclick="editMember(
 '${member.id}',
@@ -149,6 +137,8 @@ Delete
 Edit
 
 </button>
+
+
 
 
 </div>
@@ -168,9 +158,18 @@ Edit
 }
 
 loadFamilyMembers();
+
 window.deleteMember = async function(id){
 
-    window.editMember = async function(id, oldName, oldRole, oldFamily){
+await deleteDoc(doc(db, "familyMembers", id));
+
+alert("Member deleted!");
+
+location.reload();
+
+}
+
+window.editMember = async function(id, oldName, oldRole, oldFamily){
 
 const newName = prompt("Edit Name", oldName);
 
@@ -195,14 +194,6 @@ family:newFamily
 });
 
 alert("Member updated!");
-
-location.reload();
-
-}
-
-await deleteDoc(doc(db, "familyMembers", id));
-
-alert("Member deleted!");
 
 location.reload();
 
