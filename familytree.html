@@ -54,7 +54,8 @@ getFirestore,
 collection,
 getDocs,
 deleteDoc,
-doc
+doc,
+updateDoc
 
 }
 
@@ -140,6 +141,16 @@ Delete
 
 </button>
 
+<button onclick="editMember(
+'${member.id}',
+'${member.name}',
+'${member.role}',
+'${member.family}'
+)">
+
+Edit
+
+</button>
 </div>
 
 </div>
@@ -158,6 +169,36 @@ Delete
 
 loadFamilyMembers();
 window.deleteMember = async function(id){
+
+    window.editMember = async function(id, oldName, oldRole, oldFamily){
+
+const newName = prompt("Edit Name", oldName);
+
+if(newName === null) return;
+
+const newRole = prompt("Edit Role", oldRole);
+
+if(newRole === null) return;
+
+const newFamily = prompt("Edit Family", oldFamily);
+
+if(newFamily === null) return;
+
+await updateDoc(doc(db, "familyMembers", id), {
+
+name:newName,
+
+role:newRole,
+
+family:newFamily
+
+});
+
+alert("Member updated!");
+
+location.reload();
+
+}
 
 await deleteDoc(doc(db, "familyMembers", id));
 
