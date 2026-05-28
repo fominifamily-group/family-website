@@ -127,23 +127,85 @@ from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
 
-apiKey:  "AIzaSyDDqCkLKD_zwYD4ffhgTxk9qQtXTyUTSXE",
+apiKey: "AIzaSyA7FCPSsD0n0J6-D0UnxIu4VwTjopyyiI8",
 
-authDomain: "YOUR_AUTH_DOMAIN",
+authDomain: "benyebaar-family.firebaseapp.com",
 
-projectId: "YOUR_PROJECT_ID",
+projectId: "benyebaar-family",
 
-storageBucket: "YOUR_STORAGE_BUCKET",
+storageBucket: "benyebaar-family.firebasestorage.app",
 
-messagingSenderId: "YOUR_SENDER_ID",
+messagingSenderId: "657772594344",
 
-appId: "YOUR_APP_ID"
+appId: "1:657772594344:web:843e51ede1f0e499f32e9d",
+
+measurementId: "G-ERS3ZCXVGQ"
 
 };
 
 const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
+
+const addMemberBtn = document.getElementById("add-member-btn");
+
+addMemberBtn.addEventListener("click", async () => {
+
+const name = document.getElementById("member-name").value;
+
+const role = document.getElementById("member-role").value;
+
+const family = document.getElementById("member-family").value;
+
+const file = document.getElementById("member-photo").files[0];
+
+if(!file){
+
+alert("Choose photo");
+
+return;
+
+}
+
+const formData = new FormData();
+
+formData.append("file", file);
+
+formData.append("upload_preset", "familychat");
+
+const response = await fetch(
+
+"https://api.cloudinary.com/v1_1/dhw5p0mov/image/upload",
+
+{
+
+method:"POST",
+
+body:formData
+
+}
+
+);
+
+const data = await response.json();
+
+await addDoc(collection(db, "familyMembers"), {
+
+name:name,
+
+role:role,
+
+family:family,
+
+photo:data.secure_url,
+
+time:Date.now()
+
+});
+
+alert("Family member added!");
+
+});
 
 const postBtn = document.getElementById("post-btn");
 
@@ -220,6 +282,25 @@ alert("No messages found");
 
 
 </script>
+<hr style="margin:40px 0;">
 
+<h2>Add Family Member</h2>
+
+<input type="text" id="member-name"
+placeholder="Full Name">
+
+<input type="text" id="member-role"
+placeholder="Role">
+
+<input type="text" id="member-family"
+placeholder="Family Group">
+
+<input type="file" id="member-photo">
+
+<button id="add-member-btn">
+
+Add Family Member
+
+</button>
 </body>
 </html>
