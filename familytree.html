@@ -52,7 +52,9 @@ import {
 
 getFirestore,
 collection,
-getDocs
+getDocs,
+deleteDoc,
+doc
 
 }
 
@@ -96,7 +98,13 @@ groupedFamilies[data.family] = [];
 
 }
 
-groupedFamilies[data.family].push(data);
+groupedFamilies[data.family].push({
+
+id: doc.id,
+
+...data
+
+});
 
 });
 
@@ -126,6 +134,14 @@ ${groupedFamilies[familyName].map(member => `
 
 <p>${member.role}</p>
 
+<button onclick="deleteMember('${member.id}')">
+
+Delete
+
+</button>
+
+</div>
+
 </div>
 
 `).join("")}
@@ -141,7 +157,15 @@ ${groupedFamilies[familyName].map(member => `
 }
 
 loadFamilyMembers();
+window.deleteMember = async function(id){
 
+await deleteDoc(doc(db, "familyMembers", id));
+
+alert("Member deleted!");
+
+location.reload();
+
+}
 </script>
 </body>
 
