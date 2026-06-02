@@ -154,6 +154,8 @@ Post
             <img src="images/image33.jpg" alt="">
             <img src="images/image34.jpg" alt="">
             <img src="images/image35.jpg" alt="">
+            <img src="images/image36.jpg" alt="">
+            <img src="images/image38.jpg" alt="">
 
         </div>
     </section>
@@ -161,12 +163,15 @@ Post
     <section id="contact">
         <h2>Contact Us</h2>
 
-        <form>
-            <input type="text" placeholder="Your Name" required>
-            <input type="email" placeholder="Your Email" required>
-            <textarea placeholder="Your Message"></textarea>
-            <button type="submit">Send Message</button>
-        </form>
+    <form id="contact-form">
+    <input type="text" id="contact-name" placeholder="Your Name" required>
+
+    <input type="email" id="contact-email" placeholder="Your Email" required>
+
+    <textarea id="contact-message" placeholder="Your Message"></textarea>
+
+    <button type="submit">Send Message</button>
+</form>
     </section>
 
         <footer>
@@ -218,6 +223,8 @@ import { initializeApp }
 
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
+
+
 import {
 
 getFirestore,
@@ -254,6 +261,30 @@ appId: "1:757400177632:web:3b1743038b3c4a53c3985"
 const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
+
+const contactForm = document.getElementById("contact-form");
+
+contactForm.addEventListener("submit", async (e) => {
+
+e.preventDefault();
+
+await addDoc(collection(db, "contactMessages"), {
+
+name: document.getElementById("contact-name").value,
+
+email: document.getElementById("contact-email").value,
+
+message: document.getElementById("contact-message").value,
+
+time: Date.now()
+
+});
+
+alert("Message sent successfully!");
+
+contactForm.reset();
+
+});
 
 const announcementInput = document.getElementById("announcement-message");
 

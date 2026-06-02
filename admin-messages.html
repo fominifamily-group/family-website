@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Contact Messages</title>
+</head>
+<body>
+
+<h1>Contact Messages</h1>
+
+<div id="messages"></div>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+getFirestore,
+collection,
+getDocs
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyDDqCkLKD_zwYD4ffhgTxk9qQtXTyUTSXE",
+
+authDomain: "family-chat-4ae3c.firebaseapp.com",
+
+projectId: "family-chat-4ae3c",
+
+storageBucket: "family-chat-4ae3c.firebasestorage.app",
+
+messagingSenderId: "757400177632",
+
+appId: "1:757400177632:web:3b1743038b3c4a53c3985"
+
+
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const messagesDiv = document.getElementById("messages");
+
+async function loadMessages(){
+
+const snapshot = await getDocs(collection(db,"contactMessages"));
+
+snapshot.forEach((doc)=>{
+
+const data = doc.data();
+
+messagesDiv.innerHTML += `
+<div style="border:1px solid #ccc;padding:10px;margin:10px;">
+<h3>${data.name}</h3>
+<p><b>Email:</b> ${data.email}</p>
+<p>${data.message}</p>
+</div>
+`;
+
+});
+
+}
+
+loadMessages();
+
+</script>
+
+</body>
+</html>
